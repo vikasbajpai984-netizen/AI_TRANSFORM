@@ -2,6 +2,7 @@
 venv/
 .venv/
 
+
 # Python cache
 __pycache__/
 *.py[cod]
@@ -30,3 +31,35 @@ static/uploads/*
 
 # OS
 .DS_Store
+# Experiment checkpoints
+experiment/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+.venv/
+
+# Model weights
+*.pth
+*.pt
+
+# IDE
+.vscode/
+.cph/
+
+# Temporary files
+tempCodeRunnerFile.py
+
+# User uploads
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Environment
+.env
+# some extra files
+content_data/
+style_data/
