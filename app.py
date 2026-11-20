@@ -9,7 +9,11 @@ from wtforms.validators import InputRequired
 from PIL import Image
 from torchvision import transforms
 import io
+import torch 
 
+
+
+print("Using device:", device)
 # Import your existing AdaIN code
 from utils.models import VGGEncoder, Decoder
 from utils.utils import adaptive_instance_normalization, calc_mean_std
@@ -30,7 +34,17 @@ class UploadForm(FlaskForm):
     alpha = FloatField('Alpha', default=1.0)
     submit = SubmitField('Transfer Style')
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if torch.cuda.is_available():
+
+    device = torch.device("cuda")
+
+elif torch.backends.mps.is_available():
+
+    device = torch.device("mps")
+
+else:
+
+    device = torch.device("cpu")
 
 encoder = VGGEncoder('vgg_normalised.pth').to(device)
 decoder = Decoder().to(device)
@@ -85,6 +99,7 @@ def index():
     content_filename = None
     style_filename = None
     error = None
+
 
     if form.validate_on_submit():
         if form.content.data and form.content.data.filename:
