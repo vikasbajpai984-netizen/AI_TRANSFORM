@@ -11,6 +11,13 @@ from torchvision import transforms
 import io
 import torch 
 
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+elif torch.backends.mps.is_available():
+    device = torch.device("mps")
+else:
+    device = torch.device("cpu")
+torch.set_num_threads(1)
 
 
 print("Using device:", device)
@@ -41,7 +48,7 @@ elif torch.backends.mps.is_available():
 else:
     device = torch.device("cpu")
     
-torch.set_num_threads(1)
+
 
 encoder = VGGEncoder('vgg_normalised.pth').to(device)
 decoder = Decoder().to(device)
