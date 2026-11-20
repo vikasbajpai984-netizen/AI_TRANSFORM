@@ -71,7 +71,7 @@ def parse_arguments():
 def main():
     args = parse_arguments()
     print(args)
-    device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     save_dir = Path('experiment') /args.experiment
     save_dir.mkdir(exist_ok = True, parents = True)
     
@@ -86,8 +86,8 @@ def main():
     content_dataset = ImageFolderDataset(args.content_dir, content_transform)
     style_dataset = ImageFolderDataset(args.style_dir, style_transform)
     
-    content_loader = DataLoader(content_dataset, batch_size=args.batch_size, shuffle=True, pin_memory=True, drop_last=True)
-    style_loader = DataLoader(style_dataset, batch_size=args.batch_size, shuffle=False, pin_memory=True, drop_last=True)
+    content_loader = DataLoader(content_dataset, batch_size=args.batch_size, shuffle=True, pin_memory=False, drop_last=True)
+    style_loader = DataLoader(style_dataset, batch_size=args.batch_size, shuffle=False, pin_memory=False, drop_last=True)
     
     
     # print(f'Content Loader size: {len(content_loader)}')
