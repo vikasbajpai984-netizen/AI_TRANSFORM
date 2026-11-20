@@ -11,6 +11,17 @@ from torchvision import transforms
 import io
 import torch 
 
+
+import torch
+import gc
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+torch.set_num_threads(1)
+torch.set_grad_enabled(False)
+
+
+
 if torch.cuda.is_available():
     device = torch.device("cuda")
 elif torch.backends.mps.is_available():
@@ -74,11 +85,13 @@ def style_transfer(content_image, style_image, encoder, decoder, alpha, device):
     content_image = content_transform(content_image).unsqueeze(0).to(device)
     style_image = style_transform(style_image).unsqueeze(0).to(device)
 
-    with torch.no_grad():
+    with torch.inference_mode():
         content_feats = encoder(content_image, is_test=True)
         style_feats = encoder(style_image, is_test=True)
 
-        stylized_feats = adaptive_instance_normalization(content_feats, style_feats)
+        stylized_feats = adaptive_instance_normalization(
+            content_feats, style_feats
+        )
 
         stylized_feats = alpha * stylized_feats + (1 - alpha) * content_feats
 
