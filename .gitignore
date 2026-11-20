@@ -1,0 +1,32 @@
+# Virtual Environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# IDE
+.vscode/
+.cph/
+
+# Temporary files
+tempCodeRunnerFile.py
+
+# Large experiment files
+experiment/
+
+# User uploaded images
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Model weights
+*.pth
+*.pt
+
+# Environment
+.env
+.env.*
+
+# OS
+.DS_Store
